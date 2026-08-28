@@ -18,36 +18,64 @@ namespace Web2
 
         protected void BtnReg_Click(object sender, EventArgs e)
         {
-            string Msg = "";// הגדרת מחרוזת שתציג את הודעת השגיאה
-            int UserId = new Random().Next(100, 10000);
-            string Username = TxtUser.Text;
-            string Pass = TxtPass.Text;
-            string PassValid = TxtPassValid.Text;
-            string FullName = TxtFullname.Text;
+            var msg = "";// הגדרת מחרוזת שתציג את הודעת השגיאה
+
+            var email = TxtUser.Text.Trim();
+            var pass = TxtPass.Text;
+            var passValid = TxtPassValid.Text;
+            var fullName = TxtFullname.Text.Trim();
+            var address = TxtAddress.Text.Trim();
+            var phone = TxtPhone.Text.Trim();
+            var cityId = int.Parse(DDLCity.SelectedValue);
+
+            var birthYear = 0;
+            int.TryParse(TxtYear.Text, out birthYear);
 
             // נבצע בדיקת תקינות קלט
-            // השם המלא הוא שדה חובה
-            if (FullName.Length < 3)
-                Msg += "<div class='badge badge-alert'>שם מלא חובה , נא להזין שם מלא</div>";
-            if(Username.Contains("@")==false)
-                Msg += "<div class='alert'>שם משתץמש אינו כתץובת מייל תקינה, נא לתקן</div>";
-            if(Pass.Length<6)
-                Msg += "<div class='alert'>סיסמה לא תקינה, גודל מינימלי שישה תווים</div>";
-            if(Pass != PassValid)
-                Msg += "<div class='alert'>סיסמה ווידוא סיסמה אינם תואמים</div>";
+            if (fullName.Length < 3)
+                msg += "<div class='badge badge-alert'>שם מלא חובה , נא להזין שם מלא</div>";
+            if (email.Contains("@") == false)
+                msg += "<div class='alert'>כתובת מייל אינה תקינה, נא לתקן</div>";
+            if (pass.Length < 6)
+                msg += "<div class='alert'>סיסמה לא תקינה, גודל מינימלי שישה תווים</div>";
+            if (pass != passValid)
+                msg += "<div class='alert'>סיסמה ווידוא סיסמה אינם תואמים</div>";
 
-            if(Msg=="")
+            if (msg == "")
             {
-                User us = new User(UserId, Username, Pass, FullName);
-                us.Register();// שמירת המשתמש במערכת לכאורה
-                Response.Redirect("default.aspx");
+                var newUser = new User();
+                newUser.UserName = email;// כרגע נשתמש במייל גם בתור שם המשתמש
+                newUser.Email = email;
+                newUser.Phone = phone;
+                newUser.Pass = pass;
+                newUser.FullName = fullName;
+                newUser.Address = address;
+                newUser.BirthYear = birthYear;
+                newUser.CityId = cityId;
+
+                var result = newUser.Register();// שמירת המשתמש במונגו
+
+                switch (result)
+                {
+                    case RegisterResult.Success:
+                        Response.Redirect("default.aspx");
+                        break;
+                    case RegisterResult.DuplicateUserName:
+                    case RegisterResult.DuplicateEmail:
+                        LtlMsg.Text = "<div class='alert'>כתובת המייל הזו כבר רשומה במערכת</div>";
+                        break;
+                    case RegisterResult.DuplicatePhone:
+                        LtlMsg.Text = "<div class='alert'>מספר הטלפון הזה כבר רשום במערכת</div>";
+                        break;
+                    default:
+                        LtlMsg.Text = "<div class='alert'>קרתה תקלה, נסה שוב מאוחר יותר</div>";
+                        break;
+                }
             }
             else
             {
-                LtlMsg.Text = Msg;
+                LtlMsg.Text = msg;
             }
-           
-
         }
     }
 }

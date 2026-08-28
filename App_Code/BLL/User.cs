@@ -1,71 +1,129 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using DAL;
 
 namespace BLL
 {
+    public enum RegisterResult
+    {
+        Success,
+        DuplicateUserName,
+        DuplicateEmail,
+        DuplicatePhone,
+        Error
+    }
+
+    public enum LoginResult
+    {
+        Success,
+        InvalidCredentials,
+        AlreadyConnected,
+        Error
+    }
+
+    [BsonIgnoreExtraElements]
     public class User
     {
-        public int UserId { get; set; }// קוד משתמש, מספור אוטומטי מהמערכת
-        public string UserName { get; set; }// שם משתמש, נזין שם בדרך כלל את המייל
-        public string Pass { get; set; }// סיסמה
-        public string FullName { get; set; }// שם מלא של המשתמש
+        [BsonId]
+        public ObjectId Id { get; set; }
 
-        // בנאי ברירת מחדל
-        public User() {
-            UserId = -1;
-            UserName = "Israel";
-            Pass = "Israeli";
-            FullName = "Israel Israeli";
-        }
+        public string UserName { get; set; }    // שם משתמש להתחברות
+        public string Email { get; set; }       // כתובת מייל
+        public string Phone { get; set; }       // מספר טלפון - זה מה שמשמש בפועל להתחברות
+        public string PasswordHash { get; set; }
+        public string PasswordSalt { get; set; }
+        public string FullName { get; set; }
+        public string Address { get; set; }
+        public int BirthYear { get; set; }
+        public int CityId { get; set; }
+        public bool IsLoggedIn { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        // הגדרת בנאי מלא המקבל ערכים עבור כל התכונות
-        public User(int UserId, string UserName, string Pass,string FullName)
+        [BsonIgnore]
+        public string Pass { get; set; }        // סיסמה בטקסט גלוי - רק בזיכרון, לעולם לא נשמר כמו שהוא
+
+        public User()
         {
-            this.UserId = UserId;
-            this.UserName = UserName;
-            this.Pass = Pass;
-            this.FullName = FullName;
         }
 
-        public User(string UserName, string Pass)
+        // שומר את המשתמש הזה במונגו - מצפין את הסיסמה לפני שהוא שומר אותה
+        public RegisterResult Register()
         {
-            
-            this.UserName = UserName;
-            this.Pass = Pass;
-           
+            try
+            {
+                var users = MongoHelper.GetDatabase().GetCollection<User>("Users");
+
+                if (users.Find(u => u.UserName == UserName).Any())
+                    return RegisterResult.DuplicateUserName;
+                if (users.Find(u => u.Email == Email).Any())
+                    return RegisterResult.DuplicateEmail;
+                if (users.Find(u => u.Phone == Phone).Any())
+                    return RegisterResult.DuplicatePhone;
+
+                string hash, salt;
+                PasswordHelper.CreateHash(Pass, out hash, out salt);
+                PasswordHash = hash;
+                PasswordSalt = salt;
+                CreatedAt = DateTime.UtcNow;
+                IsLoggedIn = false;
+
+                users.InsertOne(this);
+                return RegisterResult.Success;
+            }
+            catch (MongoException)
+            {
+                return RegisterResult.Error;
+            }
         }
 
+        // מחפש משתמש לפי טלפון, בודק את הסיסמה, ובודק שהוא לא כבר מחובר ממקום אחר
+        public static LoginResult Login(string phone, string plainPassword, out User loggedInUser)
+        {
+            loggedInUser = null;
+            try
+            {
+                var users = MongoHelper.GetDatabase().GetCollection<User>("Users");
+                var user = users.Find(u => u.Phone == phone).FirstOrDefault();
 
-        public bool ChkLogin()// פונקציה הבודקת תקינות שםש משתמנש וסיסמה של המשתמש
-        {
-            if (UserName == "aaa" && Pass == "bbb")// בדיקה האם שם המשתמש והסיסמה תקינים
-                return true;
-            else
-                return false;
-            
-        }
-        public bool Register()
-        {
-            return true;
-        }
-        public static bool ChkLoginExternal(string UserName,string Pass)
-        {
+                if (user == null)
+                    return LoginResult.InvalidCredentials;
 
-            if (UserName == "aaa" && Pass == "bbb")// בדיקה האם שם המשתמש והסיסמה תקינים
-                return true;
-            else
-                return false;
-        }
-        public static int Max(int a,int b)
-        {
-            if (a > b)
-                return a;
-            else
-                return b;
+                if (!PasswordHelper.Verify(plainPassword, user.PasswordHash, user.PasswordSalt))
+                    return LoginResult.InvalidCredentials;
+
+                if (user.IsLoggedIn)
+                    return LoginResult.AlreadyConnected;
+
+                var filter = Builders<User>.Filter.Eq(u => u.Id, user.Id);
+                var update = Builders<User>.Update.Set(u => u.IsLoggedIn, true);
+                users.UpdateOne(filter, update);
+
+                user.IsLoggedIn = true;
+                loggedInUser = user;
+                return LoginResult.Success;
+            }
+            catch (MongoException)
+            {
+                return LoginResult.Error;
+            }
         }
 
-       
+        // מנקה את דגל "מחובר" - נקרא כשמשתמש מתנתק
+        public static void Logout(ObjectId userId)
+        {
+            try
+            {
+                var users = MongoHelper.GetDatabase().GetCollection<User>("Users");
+                var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
+                var update = Builders<User>.Update.Set(u => u.IsLoggedIn, false);
+                users.UpdateOne(filter, update);
+            }
+            catch (MongoException)
+            {
+                // אם זה נכשל, המשתמש פשוט יישאר "מחובר" עד שינסה שוב
+            }
+        }
     }
 }

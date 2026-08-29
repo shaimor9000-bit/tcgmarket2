@@ -12,9 +12,11 @@ namespace Web2
     {
         protected void Page_Load(object sender, EventArgs e)// אירוע טעינת העמוד
         {
-            if (Session["Login"] == null)// בדיקה האם קיים סשן לוגין, במידה ולא מעבירים לעמוד לוגין
+            if (Session["Login"] == null)
+                // בדיקה האם קיים סשן לוגין, במידה ולא מעבירים לעמוד לוגין
             {
                 Response.Redirect("Login.aspx");
+                return;
             }
 
             var us = (User)Session["Login"];// שליפת אוביקט המשתמש מתוך הסשן

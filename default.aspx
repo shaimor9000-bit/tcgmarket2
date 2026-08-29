@@ -13,6 +13,9 @@
         <div class="container mt-4">
             <asp:Literal ID="LtlUser" runat="server" />
             <div class="mt-3">
+    <a href="CreateListing.aspx" class="btn btn-primary">הצע קלף למכירה</a>
+</div>
+            <div class="mt-3">
                 <asp:Button ID="BtnLogout" runat="server" Text="התנתק" CssClass="btn btn-outline-danger" OnClick="BtnLogout_Click" />
             </div>
         </div>

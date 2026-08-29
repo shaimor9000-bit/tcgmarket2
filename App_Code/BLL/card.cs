@@ -34,7 +34,10 @@ namespace BLL
             var filter = Builders<Card>.Filter.Regex(c => c.Name, new BsonRegularExpression("^" + term, "i"));
             return Cards.Find(filter).ToList();
         }
-
+        public static Card GetById(ObjectId id)
+        {
+            return Cards.Find(c => c.Id == id).FirstOrDefault();
+        }
         // ממלא את קטלוג הקלפים בפעם הראשונה בלבד - אם כבר יש קלפים בקולקציה, לא עושים כלום
         public static void SeedIfEmpty()
         {

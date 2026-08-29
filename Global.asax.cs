@@ -17,6 +17,7 @@ namespace Web2
             try
             {
                 MongoHelper.EnsureIndexes();// יוצר את האינדקסים הייחודיים במונגו (שם משתמש, מייל, טלפון)
+                Card.SeedIfEmpty();// ממלא את קטלוג הקלפים בפעם הראשונה, לא עושה כלום אם כבר יש קלפים
             }
             catch (Exception ex)
             {

@@ -173,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\BLL\card.cs" />
+    <Content Include="App_Code\BLL\EmailHelper.cs" />
     <Compile Include="App_Code\BLL\Product.cs" />
     <Compile Include="App_Code\BLL\User.cs" />
     <Compile Include="App_Code\DAL\MongoHelper.cs" />

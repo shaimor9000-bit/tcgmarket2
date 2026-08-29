@@ -31,11 +31,7 @@ namespace Web2
             var birthYear = 0;
             DateTime birthDate;
 
-            case RegisterResult.Success:
-                EmailHelper.SendWelcomeEmail(email, fullName); // שולח מייל ברוכים הבאים, לא עוצר את ההרשמה אם זה נכשל
-                Response.Redirect("Login.aspx");
-                break;
-                if (!DateTime.TryParseExact(birthDateText, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthDate))
+            if (!DateTime.TryParseExact(birthDateText, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthDate))
             {
                 msg += "<div class='alert'>תאריך לידה אינו תקין</div>";
             }

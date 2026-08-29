@@ -170,10 +170,19 @@
     <Content Include="ProductList.aspx" />
     <Content Include="Reg.aspx" />
     <Content Include="Web.config" />
+    <Content Include="CreateListing.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\BLL\card.cs" />
     <Compile Include="App_Code\BLL\EmailHelper.cs" />
+    <Compile Include="CreateListing.aspx.cs">
+      <DependentUpon>CreateListing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateListing.aspx.designer.cs">
+      <DependentUpon>CreateListing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Code\BLL\Listing.cs" />
     <Compile Include="App_Code\BLL\Product.cs" />
     <Compile Include="App_Code\BLL\User.cs" />
     <Compile Include="App_Code\DAL\MongoHelper.cs" />

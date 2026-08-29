@@ -74,6 +74,7 @@ namespace Web2
                 switch (result)
                 {
                     case RegisterResult.Success:
+                        EmailHelper.SendWelcomeEmail(email, fullName); // שולח מייל ברוכים הבאים, לא עוצר את ההרשמה אם זה נכשל
                         Response.Redirect("Login.aspx");
                         break;
                     case RegisterResult.DuplicateUserName:

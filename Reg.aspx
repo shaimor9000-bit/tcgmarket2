@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Reg.aspx.cs" Inherits="Web2.Reg" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Reg.aspx.cs" Inherits="Web2.Reg" using System.Globalization %>
 
 <!DOCTYPE html>
 
@@ -74,10 +74,10 @@
                         </div>
                     </div>
                         <div class="row">
-    <div class="col-3">שנת לידה</div>
+   <div class="col-3">תאריך לידה (DD/MM/YYYY)</div>
     <div class="col-6">
         <asp:TextBox ID="TxtYear" runat="server" />
-        <asp:RangeValidator ID="RangeValidator1" runat="server" ErrorMessage="ההרשמה מגיל 18" ControlToValidate="TxtYear" Type="Integer" MinimumValue="1906" MaximumValue="2008" Text="*" />
+<asp:RegularExpressionValidator ID="RangeValidator1" runat="server" ErrorMessage="יש להזין תאריך לידה בפורמט DD/MM/YYYY" ControlToValidate="TxtYear" ValidationExpression="\d{2}/\d{2}/\d{4}" Text="*" />
     </div>
 </div>
                       <div class="row">

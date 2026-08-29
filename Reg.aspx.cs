@@ -58,7 +58,7 @@ namespace Web2
                 switch (result)
                 {
                     case RegisterResult.Success:
-                        Response.Redirect("default.aspx");
+                        Response.Redirect("Login.aspx");
                         break;
                     case RegisterResult.DuplicateUserName:
                     case RegisterResult.DuplicateEmail:

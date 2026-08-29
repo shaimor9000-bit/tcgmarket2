@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Reg.aspx.cs" Inherits="Web2.Reg" using System.Globalization %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Reg.aspx.cs" Inherits="Web2.Reg" %>
 
 <!DOCTYPE html>
 
@@ -59,7 +59,7 @@
                         <div class="col-6">
                             <asp:TextBox ID="TxtFullname" runat="server" />
                            <asp:RequiredFieldValidator ID="ReqFully" runat="server" ControlToValidate="TxtFullname" ErrorMessage="חובה להזין שם מלא" />
-                            <asp:RangeValidator ID="RngFully" runat="server" ControlToValidate="TxtFullname" MaximumValue="120" MinimumValue="18" Type="Integer" ErrorMessage="שם מלא לא בטווח של 18 עד 120" />
+                           
                       <%--      <asp:CompareValidator ID="CmpFully" runat="server" ControlToValidate="TxtFullname" ControlToCompare="TxtAddress" ErrorMessage="השם והכתובת אינם תואמים" />
                             <asp:RegularExpressionValidator ID="RegFully" runat="server" ControlToValidate="TxtFullname" ValidationExpression="05[0-9][0-9]{7}" ErrorMessage="טלפון לא תקיןם         " />
                             <asp:ValidationSummary ID="sumFull" runat="server" DisplayMode="List" ShowMessageBox="true" />

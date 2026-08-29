@@ -1,6 +1,7 @@
 ﻿using BLL;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -28,8 +29,25 @@ namespace Web2
             var phone = TxtPhone.Text.Trim();
             var cityId = int.Parse(DDLCity.SelectedValue);
 
+            var birthDateText = TxtYear.Text.Trim();
             var birthYear = 0;
-            int.TryParse(TxtYear.Text, out birthYear);
+            DateTime birthDate;
+
+            if (!DateTime.TryParseExact(birthDateText, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthDate))
+            {
+                msg += "<div class='alert'>תאריך לידה אינו תקין</div>";
+            }
+            else
+            {
+                var age = DateTime.Today.Year - birthDate.Year;
+                if (birthDate.Date > DateTime.Today.AddYears(-age))
+                    age--;// מתקן אם יום ההולדת השנה עוד לא הגיע
+
+                if (age < 18)
+                    msg += "<div class='alert'>ההרשמה מגיל 18 ומעלה בלבד</div>";
+
+                birthYear = birthDate.Year;
+            }
 
             // נבצע בדיקת תקינות קלט
             if (fullName.Length < 3)

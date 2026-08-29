@@ -12,36 +12,21 @@ namespace Web2
     {
         protected void Page_Load(object sender, EventArgs e)// אירוע טעינת העמוד
         {
-            User vv = new User();// יצירת אובייקט מסוג יוזר
-            Session["x"] = "abc";
-            Session["y"] = 99;
-            Session["z"] = vv;
-            int xxx =(int) Session["y"];
-            User cc= (User)Session["z"];
-
-
-            
-            //int x = 100,y=3,z;
-            //double k;
-            //k = (double)x / y;
-            //int a = 4;
-            //double b = 5.6;
-            //a =(int) b;
-            if (Session["Login"] ==null)// בדיקה האם קיים סשן לוגין, במידה ולא מעבירים לעמוד לוגין
+            if (Session["Login"] == null)// בדיקה האם קיים סשן לוגין, במידה ולא מעבירים לעמוד לוגין
             {
-                Response.Redirect("login.aspx");
-            }
-            User us =(User) Session["Login"];// שליפת אוביקט המשתמש מתוך הסשן
-            LtlUser.Text =" שלום משתמש יקר בשם " +us.UserName;// הצגת הודעה מותאמת אישית עם שם המשתמש
-            if(IsPostBack==false)// האם זו טעינה ראשונה 
-            {
-                // מקובל לכתוב כאן פעולות התחלתיות הקשורות לנראות של העמוד, כגון טעינת רשימות של ערים, לקוחות... וכדומה
-            }
-            else // הייתה שליחה של אירוע מתוך העמוד שנטען עוד קודם
-            {
-
+                Response.Redirect("Login.aspx");
             }
 
+            var us = (User)Session["Login"];// שליפת אוביקט המשתמש מתוך הסשן
+            LtlUser.Text = "<h3>שלום " + us.FullName + "</h3>";// הצגת הודעה מותאמת אישית עם שם המשתמש
+        }
+
+        protected void BtnLogout_Click(object sender, EventArgs e)
+        {
+            var us = (User)Session["Login"];
+            User.Logout(us.Id);// מנקה את דגל "מחובר" במונגו, כדי שהמשתמש יוכל להתחבר שוב במקום אחר
+            Session["Login"] = null;// מנקה את הסשן
+            Response.Redirect("Login.aspx");
         }
     }
 }

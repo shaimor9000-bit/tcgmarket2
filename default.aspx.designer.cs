@@ -33,12 +33,12 @@ namespace Web2
         protected global::System.Web.UI.WebControls.Literal LtlUser;
 
         /// <summary>
-        /// Btn1 control.
+        /// BtnLogout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Btn1;
+        protected global::System.Web.UI.WebControls.Button BtnLogout;
     }
 }

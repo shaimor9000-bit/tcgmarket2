@@ -20,7 +20,6 @@ namespace Web2
         protected void BtnReg_Click(object sender, EventArgs e)
         {
             var msg = "";// הגדרת מחרוזת שתציג את הודעת השגיאה
-
             var email = TxtUser.Text.Trim();
             var pass = TxtPass.Text;
             var passValid = TxtPassValid.Text;
@@ -28,12 +27,15 @@ namespace Web2
             var address = TxtAddress.Text.Trim();
             var phone = TxtPhone.Text.Trim();
             var cityId = int.Parse(DDLCity.SelectedValue);
-
             var birthDateText = TxtYear.Text.Trim();
             var birthYear = 0;
             DateTime birthDate;
 
-            if (!DateTime.TryParseExact(birthDateText, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthDate))
+            case RegisterResult.Success:
+                EmailHelper.SendWelcomeEmail(email, fullName); // שולח מייל ברוכים הבאים, לא עוצר את ההרשמה אם זה נכשל
+                Response.Redirect("Login.aspx");
+                break;
+                if (!DateTime.TryParseExact(birthDateText, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthDate))
             {
                 msg += "<div class='alert'>תאריך לידה אינו תקין</div>";
             }

@@ -24,7 +24,7 @@ namespace Web2
         protected void BtnLogout_Click(object sender, EventArgs e)
         {
             var us = (User)Session["Login"];
-            User.Logout(us.Id);// מנקה את דגל "מחובר" במונגו, כדי שהמשתמש יוכל להתחבר שוב במקום אחר
+            BLL.User.Logout(us.Id);// מנקה את דגל "מחובר" במונגו, כדי שהמשתמש יוכל להתחבר שוב במקום אחר
             Session["Login"] = null;// מנקה את הסשן
             Response.Redirect("Login.aspx");
         }

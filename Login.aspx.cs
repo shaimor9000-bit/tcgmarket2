@@ -22,7 +22,7 @@ namespace Web2
             var pass = TxtPass.Text;
 
             User loggedInUser;
-            var result = User.Login(phone, pass, out loggedInUser);// בדיקה מול מסד הנתונים
+            var result = BLL.User.Login(phone, pass, out loggedInUser);// בדיקה מול מסד הנתונים
 
             switch (result)
             {

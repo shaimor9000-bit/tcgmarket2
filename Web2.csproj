@@ -174,7 +174,7 @@
   <ItemGroup>
     <Compile Include="App_Code\BLL\Product.cs" />
     <Compile Include="App_Code\BLL\User.cs" />
-    <Compile Include="App_Code\DAL\DBHelper.cs" />
+    <Compile Include="App_Code\DAL\MongoHelper.cs" />
     <Compile Include="App_Code\DAL\PasswordHelper.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>

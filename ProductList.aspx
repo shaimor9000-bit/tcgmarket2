@@ -14,36 +14,51 @@
         <a href="default.aspx">חזרה לעמוד הבית</a>
 
         <div class="mt-3">
-            <asp:Literal ID="LtlEmpty" runat="server" />
-
-            <asp:Repeater ID="RptListings" runat="server">
-                <HeaderTemplate>
-                    <div class="row row-cols-1 row-cols-md-3 g-4 mt-1">
-                </HeaderTemplate>
-                <ItemTemplate>
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src='<%# GetDisplayImage(Eval("PhotoUrl"), Eval("CardImageUrl")) %>' class="card-img-top" alt='<%# Eval("CardName") %>' style="max-height:260px;object-fit:contain;" />
-                            <div class="card-body">
-                                <h5 class="card-title"><%# Eval("CardName") %></h5>
-                                <p class="card-text">משחק: <%# Eval("CardGame") %></p>
-                                <p class="card-text">כמות זמינה: <%# Eval("Quantity") %></p>
-                                <div class="card-text"><%# Eval("Notes") %></div>
-                                <hr />
-                                <p class="card-text mb-1">מוכר: <%# Eval("SellerName") %></p>
-                                <p class="card-text mb-1">טלפון: <%# Eval("SellerPhone") %></p>
-                                <p class="card-text mb-0">מייל: <%# Eval("SellerEmail") %></p>
-                            </div>
-                        </div>
-                    </div>
-                </ItemTemplate>
-                <FooterTemplate>
-                    </div>
-                </FooterTemplate>
-            </asp:Repeater>
+            <div id="LoadingMsg" class="alert alert-secondary">טוען קלפים...</div>
+            <div id="EmptyMsg" class="alert alert-info" style="display:none;">אין עדיין קלפים למכירה</div>
+            <div id="ListingsContainer" class="row row-cols-1 row-cols-md-3 g-4 mt-1"></div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $.getJSON("api/listings", function (data) {
+                $("#LoadingMsg").hide();
+
+                if (!data || data.length === 0) {
+                    $("#EmptyMsg").show();
+                    return;
+                }
+
+                var container = $("#ListingsContainer");
+                $.each(data, function (i, item) {
+                    var img = item.photoUrl ? item.photoUrl : item.cardImageUrl;
+                    var card =
+                        '<div class="col">' +
+                        '  <div class="card h-100">' +
+                        '    <img src="' + img + '" class="card-img-top" style="max-height:260px;object-fit:contain;" />' +
+                        '    <div class="card-body">' +
+                        '      <h5 class="card-title">' + item.cardName + '</h5>' +
+                        '      <p class="card-text">משחק: ' + item.cardGame + '</p>' +
+                        '      <p class="card-text">כמות זמינה: ' + item.quantity + '</p>' +
+                        '      <div class="card-text">' + (item.notes || '') + '</div>' +
+                        '      <hr />' +
+                        '      <p class="card-text mb-1">מוכר: ' + item.sellerName + '</p>' +
+                        '      <p class="card-text mb-1">טלפון: ' + item.sellerPhone + '</p>' +
+                        '      <p class="card-text mb-0">מייל: ' + item.sellerEmail + '</p>' +
+                        '    </div>' +
+                        '  </div>' +
+                        '</div>';
+                    container.append(card);
+                });
+            }).fail(function () {
+                $("#LoadingMsg").hide();
+                $("#EmptyMsg").text("שגיאה בטעינת הקלפים, נסה שוב מאוחר יותר").show();
+            });
+        });
+    </script>
 </body>
 </html>

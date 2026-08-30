@@ -50,8 +50,7 @@ namespace BLL
         public User()
         {
         }
-        // מאפס את כל דגלי "מחובר" - נקרא פעם אחת בהפעלת האפליקציה,
-        // כדי שאם השרת קרס באמצע סשן, המשתמש לא יישאר "תקוע מחובר" לתמיד
+
         public static void ResetAllLoginFlags()
         {
             try
@@ -61,10 +60,9 @@ namespace BLL
             }
             catch (MongoException)
             {
-                // אם המונגו לא רץ כרגע, לא נרצה שהאתר יקרוס
             }
         }
-        // שומר את המשתמש הזה במונגו - מצפין את הסיסמה לפני שהוא שומר אותה
+
         public RegisterResult Register()
         {
             try
@@ -94,7 +92,6 @@ namespace BLL
             }
         }
 
-        // מחפש משתמש לפי טלפון, בודק את הסיסמה, ובודק שהוא לא כבר מחובר ממקום אחר
         public static LoginResult Login(string phone, string plainPassword, out User loggedInUser)
         {
             loggedInUser = null;
@@ -126,7 +123,6 @@ namespace BLL
             }
         }
 
-        // מנקה את דגל "מחובר" - נקרא כשמשתמש מתנתק
         public static void Logout(ObjectId userId)
         {
             try
@@ -138,11 +134,9 @@ namespace BLL
             }
             catch (MongoException)
             {
-                // אם זה נכשל, המשתמש פשוט יישאר "מחובר" עד שינסה שוב
             }
         }
 
-        // יוצר קוד איפוס סיסמה חד-פעמי, בתוקף לשעה, ושומר אותו על המשתמש (לפי מייל)
         public static bool GeneratePasswordResetToken(string email, out string token)
         {
             token = null;
@@ -156,3 +150,54 @@ namespace BLL
 
                 token = Guid.NewGuid().ToString("N");
                 var expiry = DateTime.UtcNow.AddHours(1);
+
+                var filter = Builders<User>.Filter.Eq(u => u.Id, user.Id);
+                var update = Builders<User>.Update
+                    .Set(u => u.ResetToken, token)
+                    .Set(u => u.ResetTokenExpiry, expiry);
+                users.UpdateOne(filter, update);
+
+                return true;
+            }
+            catch (MongoException)
+            {
+                return false;
+            }
+        }
+
+        public static bool ResetPassword(string email, string token, string newPassword)
+        {
+            try
+            {
+                var users = MongoHelper.GetDatabase().GetCollection<User>("Users");
+                var user = users.Find(u => u.Email == email).FirstOrDefault();
+
+                if (user == null || string.IsNullOrEmpty(user.ResetToken))
+                    return false;
+
+                if (user.ResetToken != token)
+                    return false;
+
+                if (user.ResetTokenExpiry == null || user.ResetTokenExpiry < DateTime.UtcNow)
+                    return false;
+
+                string hash, salt;
+                PasswordHelper.CreateHash(newPassword, out hash, out salt);
+
+                var filter = Builders<User>.Filter.Eq(u => u.Id, user.Id);
+                var update = Builders<User>.Update
+                    .Set(u => u.PasswordHash, hash)
+                    .Set(u => u.PasswordSalt, salt)
+                    .Unset(u => u.ResetToken)
+                    .Unset(u => u.ResetTokenExpiry);
+                users.UpdateOne(filter, update);
+
+                return true;
+            }
+            catch (MongoException)
+            {
+                return false;
+            }
+        }
+    }
+}

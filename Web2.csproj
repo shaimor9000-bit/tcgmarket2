@@ -190,6 +190,12 @@
     <Content Include="Web.config" />
     <Content Include="CreateListing.aspx" />
     <Content Include="ForgotPassword.aspx" />
+    <Content Include="UploadedImages\16cd538e-15ed-4aab-ae1e-38df2741f1de.jpeg" />
+    <Content Include="UploadedImages\3f667ecb-2e9a-4906-a492-0a10ed0cf915.jpeg" />
+    <Content Include="UploadedImages\545bbc33-6b3e-4559-83e6-edde786e6499.jpeg" />
+    <Content Include="UploadedImages\706cc9c0-070f-44fc-98f1-120993bc4a79.jpeg" />
+    <Content Include="UploadedImages\577dd48c-bd2f-4133-a2d4-7cf5f6aefc08.jpeg" />
+    <Content Include="UploadedImages\1719dac9-bfd4-4728-bb29-2b4330d6f1c7.jpeg" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\BLL\card.cs" />

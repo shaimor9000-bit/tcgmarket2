@@ -43,5 +43,12 @@ namespace BLL
             var body = $"<p>שלום {fullName},</p><p>ההרשמה שלך בוצעה בהצלחה. בהצלחה במסחר בקלפים!</p>";
             SendEmail(toAddress, subject, body);
         }
+
+        public static void SendPasswordResetEmail(string toAddress, string resetLink)
+        {
+            var subject = "איפוס סיסמה - TCG Market";
+            var body = $"<p>קיבלנו בקשה לאיפוס הסיסמה שלך.</p><p>לחץ/י על הקישור הבא כדי לבחור סיסמה חדשה (בתוקף לשעה אחת):</p><p><a href=\"{resetLink}\">{resetLink}</a></p><p>אם לא ביקשת לאפס סיסמה, אפשר להתעלם מהמייל הזה.</p>";
+            SendEmail(toAddress, subject, body);
+        }
     }
 }

@@ -41,6 +41,9 @@ namespace BLL
         public bool IsLoggedIn { get; set; }
         public DateTime CreatedAt { get; set; }
 
+        public string ResetToken { get; set; }
+        public DateTime? ResetTokenExpiry { get; set; }
+
         [BsonIgnore]
         public string Pass { get; set; }        // סיסמה בטקסט גלוי - רק בזיכרון, לעולם לא נשמר כמו שהוא
 
@@ -138,5 +141,18 @@ namespace BLL
                 // אם זה נכשל, המשתמש פשוט יישאר "מחובר" עד שינסה שוב
             }
         }
-    }
-}
+
+        // יוצר קוד איפוס סיסמה חד-פעמי, בתוקף לשעה, ושומר אותו על המשתמש (לפי מייל)
+        public static bool GeneratePasswordResetToken(string email, out string token)
+        {
+            token = null;
+            try
+            {
+                var users = MongoHelper.GetDatabase().GetCollection<User>("Users");
+                var user = users.Find(u => u.Email == email).FirstOrDefault();
+
+                if (user == null)
+                    return false;
+
+                token = Guid.NewGuid().ToString("N");
+                var expiry = DateTime.UtcNow.AddHours(1);

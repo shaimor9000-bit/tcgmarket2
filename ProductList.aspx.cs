@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using BLL;
 
 namespace Web2
@@ -12,11 +8,25 @@ namespace Web2
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            List<Product> lst =(List<Product>) Application["Prods"];// שליפת רשימת המוצרים מתוך הזכרון של האפליקיישן
-            for(int i = 0; i < lst.Count; i++)
+            if (!IsPostBack)
             {
-                Response.Write(lst[i].PName);// הדפסה של שמות המוצרים באתר
+                BindListings();
             }
+        }
+
+        private void BindListings()
+        {
+            var listings = Listing.GetAll();
+
+            if (listings.Count == 0)
+            {
+                LtlEmpty.Text = "<div class='alert alert-info'>אין עדיין קלפים למכירה</div>";
+                RptListings.Visible = false;
+                return;
+            }
+
+            RptListings.DataSource = listings;
+            RptListings.DataBind();
         }
     }
 }

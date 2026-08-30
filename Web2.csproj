@@ -185,6 +185,7 @@
     <Content Include="MyListings.aspx" />
     <Content Include="ProductList.aspx" />
     <Content Include="Reg.aspx" />
+    <Content Include="Site.css" />
     <Content Include="Web.config" />
     <Content Include="CreateListing.aspx" />
   </ItemGroup>

@@ -32,13 +32,12 @@
     <script>
         var allListings = [];
 
-        function toWhatsAppLink(phone) {
+        function toWhatsAppLink(phone, cardName) {
             if (!phone) return "#";
             var digits = phone.replace(/\D/g, "");
-            if (digits.charAt(0) === "0") {
-                digits = "972" + digits.substring(1);
-            }
-            return "https://wa.me/" + digits;
+            if (digits.charAt(0) === "0") { digits = "972" + digits.substring(1); }
+            var message = "היי, אני מתעניין בפריט שהצעת למכירה: " + cardName;
+            return "https://wa.me/" + digits + "?text=" + encodeURIComponent(message);
         }
 
         function renderListings(list) {
@@ -66,7 +65,7 @@
                     '      <p class="card-text mb-1">מוכר: ' + item.sellerName + '</p>' +
                     '      <p class="card-text mb-1">טלפון: ' + item.sellerPhone + '</p>' +
                     '      <p class="card-text mb-2">מייל: ' + item.sellerEmail + '</p>' +
-                    '      <a href="' + toWhatsAppLink(item.sellerPhone) + '" target="_blank" class="btn btn-success btn-sm">צור קשר בוואטסאפ</a>' +
+                    '     ' < a href = "' + toWhatsAppLink(item.sellerPhone, item.cardName) + '" target = "_blank" class="btn btn-success btn-sm" > צור קשר בוואטסאפ</a >' +
                     '    </div>' +
                     '  </div>' +
                     '</div>';

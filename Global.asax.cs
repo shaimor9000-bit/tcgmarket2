@@ -15,6 +15,8 @@ namespace Web2
 
         protected void Application_Start(object sender, EventArgs e)// אירוע טעינה של האפליקציה
         {
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+
             try
             {
                 MongoHelper.EnsureIndexes();// יוצר את האינדקסים הייחודיים במונגו (שם משתמש, מייל, טלפון)

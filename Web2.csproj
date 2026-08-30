@@ -185,11 +185,11 @@
     <Content Include="MyListings.aspx" />
     <Content Include="ProductList.aspx" />
     <Content Include="Reg.aspx" />
-    <Compile Include="ResetPasswordaspx.aspx" />
+    <Content Include="ResetPasswordaspx.aspx" />
     <Content Include="Site.css" />
     <Content Include="Web.config" />
     <Content Include="CreateListing.aspx" />
-    <Compile Include="ForgotPassword.aspx" />
+    <Content Include="ForgotPassword.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\BLL\card.cs" />

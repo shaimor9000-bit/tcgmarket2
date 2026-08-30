@@ -185,7 +185,7 @@
     <Content Include="MyListings.aspx" />
     <Content Include="ProductList.aspx" />
     <Content Include="Reg.aspx" />
-    <Content Include="ResetPasswordaspx.aspx" />
+    <Content Include="ResetPassword.aspx" />
     <Content Include="Site.css" />
     <Content Include="Web.config" />
     <Content Include="CreateListing.aspx" />
@@ -254,16 +254,17 @@
     <Compile Include="ForgotPassword.aspx.designer.cs">
       <DependentUpon>ForgotPassword.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ResetPasswordaspx.aspx.cs">
-      <DependentUpon>ResetPasswordaspx.aspx</DependentUpon>
+    <Compile Include="ResetPassword.aspx.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ResetPasswordaspx.aspx.designer.cs">
-      <DependentUpon>ResetPasswordaspx.aspx</DependentUpon>
+    <Compile Include="ResetPassword.aspx.designer.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\tcgmarket-rg - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

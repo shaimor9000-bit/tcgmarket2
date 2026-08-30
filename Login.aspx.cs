@@ -6,7 +6,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using BLL;
 
-
 namespace Web2
 {
     public partial class Login : System.Web.UI.Page
@@ -37,11 +36,6 @@ namespace Web2
                     LtlMsg.Text = "<div class='badge badge-error'>טלפון / סיסמה אינם נכונים</div>";
                     break;
             }
-        }
-
-        protected void btnTmp_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

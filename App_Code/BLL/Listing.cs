@@ -32,6 +32,25 @@ namespace BLL
         {
             get { return MongoHelper.GetDatabase().GetCollection<Listing>("Listings"); }
         }
+        // מעדכן כמות והערות בהצעה קיימת - רק אם היא שייכת למוכר שמבקש לערוך אותה
+        public static bool Update(ObjectId listingId, ObjectId sellerId, int quantity, string notes)
+        {
+            try
+            {
+                var filter = Builders<Listing>.Filter.And(
+                    Builders<Listing>.Filter.Eq(l => l.Id, listingId),
+                    Builders<Listing>.Filter.Eq(l => l.SellerId, sellerId));
+                var update = Builders<Listing>.Update
+                    .Set(l => l.Quantity, quantity)
+                    .Set(l => l.Notes, notes);
+                var result = Listings.UpdateOne(filter, update);
+                return result.ModifiedCount > 0;
+            }
+            catch (MongoException)
+            {
+                return false;
+            }
+        }
 
         // יוצר הצעת מכירה חדשה - שומר את פרטי המוכר והקלף בתוך המסמך עצמו,
         // כך שלא צריך לחבר (join) בין קולקציות כשמציגים את הרשימה לקונים

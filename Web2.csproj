@@ -182,6 +182,7 @@
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="Login.aspx" />
+    <Content Include="MyListings.aspx" />
     <Content Include="ProductList.aspx" />
     <Content Include="Reg.aspx" />
     <Content Include="Web.config" />
@@ -191,7 +192,7 @@
     <Compile Include="App_Code\BLL\card.cs" />
     <Compile Include="App_Code\BLL\EmailHelper.cs" />
     <Compile Include="app_start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ListingsApiController.cs" />
+    <Compile Include="Controllers\ListingsController.cs" />
     <Compile Include="CreateListing.aspx.cs">
       <DependentUpon>CreateListing.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -220,6 +221,13 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyListings.aspx.cs">
+      <DependentUpon>MyListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyListings.aspx.designer.cs">
+      <DependentUpon>MyListings.aspx</DependentUpon>
     </Compile>
     <Compile Include="ProductList.aspx.cs">
       <DependentUpon>ProductList.aspx</DependentUpon>

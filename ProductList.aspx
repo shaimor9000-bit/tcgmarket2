@@ -13,6 +13,12 @@
         <h3>קלפים למכירה</h3>
         <a href="default.aspx">חזרה לעמוד הבית</a>
 
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <input type="text" id="SearchBox" class="form-control" placeholder="חיפוש קלף לפי שם..." />
+            </div>
+        </div>
+
         <div class="mt-3">
             <div id="LoadingMsg" class="alert alert-secondary">טוען קלפים...</div>
             <div id="EmptyMsg" class="alert alert-info" style="display:none;">אין עדיין קלפים למכירה</div>
@@ -24,39 +30,66 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
     <script>
+        var allListings = [];
+
+        function toWhatsAppLink(phone) {
+            if (!phone) return "#";
+            var digits = phone.replace(/\D/g, "");
+            if (digits.charAt(0) === "0") {
+                digits = "972" + digits.substring(1);
+            }
+            return "https://wa.me/" + digits;
+        }
+
+        function renderListings(list) {
+            var container = $("#ListingsContainer");
+            container.empty();
+
+            if (!list || list.length === 0) {
+                $("#EmptyMsg").show();
+                return;
+            }
+            $("#EmptyMsg").hide();
+
+            $.each(list, function (i, item) {
+                var img = item.photoUrl ? item.photoUrl : item.cardImageUrl;
+                var card =
+                    '<div class="col">' +
+                    '  <div class="card h-100">' +
+                    '    <img src="' + img + '" class="card-img-top" style="max-height:260px;object-fit:contain;" />' +
+                    '    <div class="card-body">' +
+                    '      <h5 class="card-title">' + item.cardName + '</h5>' +
+                    '      <p class="card-text">משחק: ' + item.cardGame + '</p>' +
+                    '      <p class="card-text">כמות זמינה: ' + item.quantity + '</p>' +
+                    '      <div class="card-text">' + (item.notes || '') + '</div>' +
+                    '      <hr />' +
+                    '      <p class="card-text mb-1">מוכר: ' + item.sellerName + '</p>' +
+                    '      <p class="card-text mb-1">טלפון: ' + item.sellerPhone + '</p>' +
+                    '      <p class="card-text mb-2">מייל: ' + item.sellerEmail + '</p>' +
+                    '      <a href="' + toWhatsAppLink(item.sellerPhone) + '" target="_blank" class="btn btn-success btn-sm">צור קשר בוואטסאפ</a>' +
+                    '    </div>' +
+                    '  </div>' +
+                    '</div>';
+                container.append(card);
+            });
+        }
+
         $(function () {
             $.getJSON("api/listings", function (data) {
                 $("#LoadingMsg").hide();
-
-                if (!data || data.length === 0) {
-                    $("#EmptyMsg").show();
-                    return;
-                }
-
-                var container = $("#ListingsContainer");
-                $.each(data, function (i, item) {
-                    var img = item.photoUrl ? item.photoUrl : item.cardImageUrl;
-                    var card =
-                        '<div class="col">' +
-                        '  <div class="card h-100">' +
-                        '    <img src="' + img + '" class="card-img-top" style="max-height:260px;object-fit:contain;" />' +
-                        '    <div class="card-body">' +
-                        '      <h5 class="card-title">' + item.cardName + '</h5>' +
-                        '      <p class="card-text">משחק: ' + item.cardGame + '</p>' +
-                        '      <p class="card-text">כמות זמינה: ' + item.quantity + '</p>' +
-                        '      <div class="card-text">' + (item.notes || '') + '</div>' +
-                        '      <hr />' +
-                        '      <p class="card-text mb-1">מוכר: ' + item.sellerName + '</p>' +
-                        '      <p class="card-text mb-1">טלפון: ' + item.sellerPhone + '</p>' +
-                        '      <p class="card-text mb-0">מייל: ' + item.sellerEmail + '</p>' +
-                        '    </div>' +
-                        '  </div>' +
-                        '</div>';
-                    container.append(card);
-                });
+                allListings = data;
+                renderListings(allListings);
             }).fail(function () {
                 $("#LoadingMsg").hide();
                 $("#EmptyMsg").text("שגיאה בטעינת הקלפים, נסה שוב מאוחר יותר").show();
+            });
+
+            $("#SearchBox").on("input", function () {
+                var term = $(this).val().toLowerCase();
+                var filtered = allListings.filter(function (item) {
+                    return item.cardName && item.cardName.toLowerCase().indexOf(term) !== -1;
+                });
+                renderListings(filtered);
             });
         });
     </script>

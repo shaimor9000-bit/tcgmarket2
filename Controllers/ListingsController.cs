@@ -5,7 +5,7 @@ using BLL;
 
 namespace Web2.Controllers
 {
-    public class ListingsApiController : ApiController
+    public class ListingsController : ApiController
     {
         // GET api/listings
         public IHttpActionResult Get()

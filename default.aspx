@@ -13,7 +13,7 @@
         <div class="container mt-4">
             <asp:Literal ID="LtlUser" runat="server" />
             <div class="mt-3">
-    <a href="CreateListing.aspx" class="btn btn-primary">הצע קלף למכירה</a> <a href="ProductList.aspx" class="btn btn-outline-primary">עיין בקלפים למכירה</a>
+  <a href="CreateListing.aspx" class="btn btn-primary">הצע קלף למכירה</a> <a href="ProductList.aspx" class="btn btn-outline-primary">עיין בקלפים למכירה</a> <a href="MyListings.aspx" class="btn btn-outline-secondary">ההצעות שלי</a>
 </div>
             <div class="mt-3">
                 <asp:Button ID="BtnLogout" runat="server" Text="התנתק" CssClass="btn btn-outline-danger" OnClick="BtnLogout_Click" />

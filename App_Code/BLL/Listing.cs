@@ -24,6 +24,8 @@ namespace BLL
         public string CardImageUrl { get; set; }
 
         public int Quantity { get; set; }
+        public string PhotoUrl { get; set; }   // תמונה אמיתית שהמוכר העלה, אופציונלי
+        public string Notes { get; set; }      // הערות חופשיות על מצב הקלף, נכתב עם עורך TinyMCE
         public DateTime CreatedAt { get; set; }
 
         static IMongoCollection<Listing> Listings

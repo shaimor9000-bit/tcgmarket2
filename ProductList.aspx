@@ -23,11 +23,12 @@
                 <ItemTemplate>
                     <div class="col">
                         <div class="card h-100">
-                            <img src='<%# Eval("CardImageUrl") %>' class="card-img-top" alt='<%# Eval("CardName") %>' style="max-height:260px;object-fit:contain;" />
+                            <img src='<%# GetDisplayImage(Eval("PhotoUrl"), Eval("CardImageUrl")) %>' class="card-img-top" alt='<%# Eval("CardName") %>' style="max-height:260px;object-fit:contain;" />
                             <div class="card-body">
                                 <h5 class="card-title"><%# Eval("CardName") %></h5>
                                 <p class="card-text">משחק: <%# Eval("CardGame") %></p>
                                 <p class="card-text">כמות זמינה: <%# Eval("Quantity") %></p>
+                                <div class="card-text"><%# Eval("Notes") %></div>
                                 <hr />
                                 <p class="card-text mb-1">מוכר: <%# Eval("SellerName") %></p>
                                 <p class="card-text mb-1">טלפון: <%# Eval("SellerPhone") %></p>

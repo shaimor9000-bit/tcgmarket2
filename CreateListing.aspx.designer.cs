@@ -8,6 +8,8 @@
         protected global::System.Web.UI.WebControls.Panel PnlCreate;
         protected global::System.Web.UI.WebControls.DropDownList DdlCards;
         protected global::System.Web.UI.WebControls.TextBox TxtQty;
+        protected global::System.Web.UI.WebControls.FileUpload FileCardPhoto;
+        protected global::System.Web.UI.WebControls.TextBox TxtNotes;
         protected global::System.Web.UI.WebControls.Button BtnCreateListing;
         protected global::System.Web.UI.WebControls.Literal LtlMsg;
     }

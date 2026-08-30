@@ -11,7 +11,7 @@
 <body>
     <div class="container mt-4">
         <h3>הצעת קלף למכירה</h3>
-        <form id="form1" runat="server">
+        <form id="form1" runat="server" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="col-3">חיפוש קלף לפי שם</div>
                 <div class="col-6">
@@ -36,6 +36,18 @@
                     </div>
                 </div>
                 <div class="row mb-3">
+                    <div class="col-3">תמונה של הקלף (אופציונלי)</div>
+                    <div class="col-6">
+                        <asp:FileUpload ID="FileCardPhoto" runat="server" CssClass="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-3">הערות על מצב הקלף</div>
+                    <div class="col-6">
+                        <asp:TextBox ID="TxtNotes" runat="server" TextMode="MultiLine" CssClass="form-control" Rows="4" />
+                    </div>
+                </div>
+                <div class="row mb-3">
                     <div class="col-3">
                         <asp:Button ID="BtnCreateListing" runat="server" Text="פרסם למכירה" CssClass="btn btn-success" OnClick="BtnCreateListing_Click" />
                     </div>
@@ -52,5 +64,16 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#<%= TxtNotes.ClientID %>',
+            height: 200,
+            menubar: false,
+            plugins: 'lists link',
+            toolbar: 'bold italic underline | bullist numlist | link'
+        });
+    </script>
 </body>
 </html>

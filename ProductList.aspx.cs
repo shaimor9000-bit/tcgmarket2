@@ -28,5 +28,12 @@ namespace Web2
             RptListings.DataSource = listings;
             RptListings.DataBind();
         }
+
+        // מציג את התמונה שהמוכר העלה אם קיימת, אחרת חוזר לתמונת הקטלוג
+        protected string GetDisplayImage(object photoUrl, object cardImageUrl)
+        {
+            var photo = photoUrl as string;
+            return string.IsNullOrEmpty(photo) ? (cardImageUrl as string) : ResolveUrl(photo);
+        }
     }
 }

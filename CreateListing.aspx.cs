@@ -1,10 +1,10 @@
-﻿using BLL;
-using MongoDB.Bson;
-using System;
+﻿using System;
+using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using BLL;
+using MongoDB.Bson;
 
 namespace Web2
 {
@@ -62,6 +62,25 @@ namespace Web2
                 return;
             }
 
+            string photoUrl = null;
+            if (FileCardPhoto.HasFile)
+            {
+                var ext = Path.GetExtension(FileCardPhoto.FileName).ToLower();
+                if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
+                {
+                    LtlMsg.Text = "<div class='alert alert-danger'>ניתן להעלות רק תמונות jpg/png</div>";
+                    return;
+                }
+
+                var folder = Server.MapPath("~/UploadedImages");
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                var fileName = Guid.NewGuid() + ext;
+                FileCardPhoto.SaveAs(Path.Combine(folder, fileName));
+                photoUrl = "~/UploadedImages/" + fileName;
+            }
+
             var user = (User)Session["Login"];
 
             var listing = new Listing
@@ -74,7 +93,9 @@ namespace Web2
                 CardName = card.Name,
                 CardGame = card.Game,
                 CardImageUrl = card.ImageUrl,
-                Quantity = qty
+                Quantity = qty,
+                PhotoUrl = photoUrl,
+                Notes = TxtNotes.Text
             };
 
             if (listing.Create())
@@ -84,6 +105,7 @@ namespace Web2
                 PnlCreate.Visible = false;
                 TxtCardSearch.Text = "";
                 TxtQty.Text = "";
+                TxtNotes.Text = "";
             }
             else
             {

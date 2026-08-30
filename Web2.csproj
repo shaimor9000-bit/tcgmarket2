@@ -190,6 +190,8 @@
   <ItemGroup>
     <Compile Include="App_Code\BLL\card.cs" />
     <Compile Include="App_Code\BLL\EmailHelper.cs" />
+    <Compile Include="app_start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ListingsApiController.cs" />
     <Compile Include="CreateListing.aspx.cs">
       <DependentUpon>CreateListing.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

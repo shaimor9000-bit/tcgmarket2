@@ -1,0 +1,134 @@
+﻿:root {
+    --tcg-primary: #4C1D95;
+    --tcg-primary-dark: #3b1670;
+    --tcg-accent: #D4AF37;
+    --tcg-bg: #F7F5FB;
+    --tcg-card-bg: #FFFFFF;
+    --tcg-text: #2A2438;
+    --tcg-muted: #6b6478;
+    --tcg-border-radius: 12px;
+}
+
+body {
+    background-color: var(--tcg-bg);
+    color: var(--tcg-text);
+    font-family: 'Heebo', 'Segoe UI', Tahoma, sans-serif;
+}
+
+.tcg-header {
+    background: linear-gradient(90deg, var(--tcg-primary) 0%, var(--tcg-primary-dark) 100%);
+    color: #fff;
+    padding: 14px 0;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 10px rgba(76, 29, 149, 0.25);
+}
+
+    .tcg-header .tcg-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+    }
+
+        .tcg-header .tcg-brand:hover {
+            color: var(--tcg-accent);
+            text-decoration: none;
+        }
+
+    .tcg-header nav a {
+        color: #eee;
+        text-decoration: none;
+        margin-inline-start: 18px;
+        font-weight: 500;
+        transition: color .15s ease;
+    }
+
+        .tcg-header nav a:hover {
+            color: var(--tcg-accent);
+        }
+
+.card {
+    border: none;
+    border-radius: var(--tcg-border-radius);
+    box-shadow: 0 2px 12px rgba(42, 36, 56, 0.08);
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+#ListingsContainer .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(42, 36, 56, 0.14);
+}
+
+.card-title {
+    color: var(--tcg-primary);
+    font-weight: 700;
+}
+
+.btn-primary {
+    background-color: var(--tcg-primary);
+    border-color: var(--tcg-primary);
+}
+
+    .btn-primary:hover {
+        background-color: var(--tcg-primary-dark);
+        border-color: var(--tcg-primary-dark);
+    }
+
+.btn-outline-primary {
+    color: var(--tcg-primary);
+    border-color: var(--tcg-primary);
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--tcg-primary);
+        border-color: var(--tcg-primary);
+    }
+
+.btn-success {
+    background-color: #1f8a5f;
+    border-color: #1f8a5f;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--tcg-text);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--tcg-primary);
+    box-shadow: 0 0 0 0.2rem rgba(76, 29, 149, 0.15);
+}
+
+.tcg-auth-card {
+    background: var(--tcg-card-bg);
+    border-radius: var(--tcg-border-radius);
+    box-shadow: 0 4px 20px rgba(42, 36, 56, 0.1);
+    padding: 32px;
+    max-width: 520px;
+    margin: 40px auto;
+}
+
+    .tcg-auth-card h3 {
+        color: var(--tcg-primary);
+        margin-bottom: 20px;
+    }
+
+.tcg-auth-switch {
+    display: block;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.tcg-hero {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+    .tcg-hero h1 {
+        color: var(--tcg-primary);
+        font-weight: 800;
+    }
+
+    .tcg-hero p {
+        color: var(--tcg-muted);
+    }

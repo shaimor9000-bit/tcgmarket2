@@ -6,10 +6,23 @@
     <meta charset="utf-8" />
     <title>הפריטים שלי - TCG Market</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link href="Site.css" rel="stylesheet" />
 </head>
 <body>
+    <header class="tcg-header">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap">
+            <a href="default.aspx" class="tcg-brand">🃏 TCG Market</a>
+            <nav>
+                <a href="ProductList.aspx">קלפים למכירה</a>
+                <a href="CreateListing.aspx">הצע קלף</a>
+                <a href="MyListings.aspx">ההצעות שלי</a>
+            </nav>
+        </div>
+    </header>
+
     <form id="form1" runat="server" enctype="multipart/form-data">
-    <div class="container mt-4">
+    <div class="container mb-5">
         <h2 class="mb-4">הפריטים שאני מוכר</h2>
 
         <asp:Literal ID="LtlMessage" runat="server" />

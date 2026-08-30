@@ -6,17 +6,27 @@
     <meta charset="utf-8" />
     <title>קלפים למכירה - TCG Market</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link href="Site.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>קלפים למכירה</h2>
-            <a href="Default.aspx">חזרה לעמוד הבית</a>
+    <header class="tcg-header">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap">
+            <a href="default.aspx" class="tcg-brand">🃏 TCG Market</a>
+            <nav>
+                <a href="ProductList.aspx">קלפים למכירה</a>
+                <a href="CreateListing.aspx">הצע קלף</a>
+                <a href="MyListings.aspx">ההצעות שלי</a>
+            </nav>
         </div>
+    </header>
 
-        <input type="text" id="SearchBox" class="form-control mb-3" placeholder="חיפוש קלף לפי שם..." />
+    <form id="form1" runat="server">
+    <div class="container mt-2 mb-5">
+        <h2 class="mb-3">קלפים למכירה</h2>
+
+        <input type="text" id="SearchBox" class="form-control mb-4" placeholder="חיפוש קלף לפי שם..." />
 
         <div id="ListingsContainer" class="row">
             <p class="text-muted">טוען קלפים...</p>
@@ -39,9 +49,9 @@
             return "https://wa.me/" + digits + "?text=" + encodeURIComponent(message);
         }
 
-        var waLink = toWhatsAppLink(item.sellerPhone, item.cardName, item.photoUrl ? item.photoUrl : item.cardImageUrl); {
+        function cardHtml(item) {
             var img = item.photoUrl ? item.photoUrl : item.cardImageUrl;
-            var waLink = toWhatsAppLink(item.sellerPhone, item.cardName);
+            var waLink = toWhatsAppLink(item.sellerPhone, item.cardName, img);
 
             return `
                 <div class="col-md-4 mb-4">

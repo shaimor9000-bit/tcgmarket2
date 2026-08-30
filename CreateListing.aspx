@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CreateListing.aspx.cs" Inherits="Web2.CreateListing" ValidateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CreateListing.aspx.cs" Inherits="Web2.CreateListing" ValidateRequest="false" %>g
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="rtl">
 <head runat="server">

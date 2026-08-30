@@ -21,19 +21,19 @@ namespace Web2
             var pass = TxtPass.Text;
 
             User loggedInUser;
-            var result = BLL.User.Login(phone, pass, out loggedInUser);// בדיקה מול מסד הנתונים
+            var result = BLL.User.Login(phone, pass, out loggedInUser);
 
             switch (result)
             {
                 case LoginResult.Success:
-                    Session["Login"] = loggedInUser;// שמירת אוביקט המשתמש בתוך משתנה מסוג סשן
-                    Response.Redirect("default.aspx");// מעבר לעמוד הבית
+                    Session["Login"] = loggedInUser;
+                    Response.Redirect("default.aspx");
                     break;
                 case LoginResult.AlreadyConnected:
-                    LtlMsg.Text = "<div class='badge badge-error'>המשתמש הזה כבר מחובר ממקום אחר, התנתק שם קודם</div>";
+                    LtlMsg.Text = "<div class='alert alert-danger mt-3'>המשתמש הזה כבר מחובר ממקום אחר, התנתק שם קודם</div>";
                     break;
                 default:
-                    LtlMsg.Text = "<div class='badge badge-error'>טלפון / סיסמה אינם נכונים</div>";
+                    LtlMsg.Text = "<div class='alert alert-danger mt-3'>טלפון / סיסמה אינם נכונים</div>";
                     break;
             }
         }

@@ -11,7 +11,7 @@
 </head>
 <body>
      <form id="form1" runat="server">
-     שם משתמש:  <asp:TextBox ID="TxtUser" runat="server" />
+     טלפון:  <asp:TextBox ID="TxtUser" runat="server" />
           סיסמה:  <asp:TextBox ID="TxtPass" runat="server" TextMode="Password" />
          <asp:Button id="BtnLogin" runat="server" Text="התחבר" onclick="BtnLogin_Click" />
          <asp:Button ID="btnTmp" runat="server" Text="סתם כפתור" OnClick="btnTmp_Click" />

@@ -47,7 +47,20 @@ namespace BLL
         public User()
         {
         }
-
+        // מאפס את כל דגלי "מחובר" - נקרא פעם אחת בהפעלת האפליקציה,
+        // כדי שאם השרת קרס באמצע סשן, המשתמש לא יישאר "תקוע מחובר" לתמיד
+        public static void ResetAllLoginFlags()
+        {
+            try
+            {
+                var users = MongoHelper.GetDatabase().GetCollection<User>("Users");
+                users.UpdateMany(Builders<User>.Filter.Empty, Builders<User>.Update.Set(u => u.IsLoggedIn, false));
+            }
+            catch (MongoException)
+            {
+                // אם המונגו לא רץ כרגע, לא נרצה שהאתר יקרוס
+            }
+        }
         // שומר את המשתמש הזה במונגו - מצפין את הסיסמה לפני שהוא שומר אותה
         public RegisterResult Register()
         {
